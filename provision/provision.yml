@@ -1,0 +1,7 @@
+---
+- name: Provision clean Raspberry Pi (Raspbian)
+
+  hosts: pi
+  roles:
+    - pi
+  become: yes

@@ -1,0 +1,57 @@
+---
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+
+- name: Update all packages to the latest version
+  apt:
+    upgrade: dist
+
+- name: Create users
+  user:
+    name: "{{ item.name }}"
+    state: present
+    groups: "{{ item.groups }}"
+  loop:
+    - { name: 'kpucynski', groups: 'sudo' }
+
+- name: Set nopasswd sudo
+  copy:
+    dest: "/etc/sudoers.d/010_kpucynski-nopasswd"
+    content: |
+      kpucynski ALL=(ALL) NOPASSWD: ALL
+      
+- name: Set authorized keys from github
+  authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: https://github.com/kpucynski.keys
+  loop:
+    - { name: 'kpucynski' }
+    - { name: 'pi' }
+
+- name: "Remove password from pi account"
+  user:
+    name: pi
+    password: "!"
+
+- name: Set hostname
+  hostname:
+    name: "{{ target_hostname }}"
+
+- name: Update hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.1.1	{{ target_hostname }}"
+
+- name: Reboot
+  shell: sync && sync && sleep 2 && reboot
+  async: 1
+  poll: 0
+  ignore_errors: true
+
+- name: Wait for Raspberry PI to come back
+  local_action: wait_for host="{{ target_hostname }}" port=22 state=started delay=15
+  become: false
+
