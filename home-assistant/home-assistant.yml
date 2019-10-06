@@ -1,0 +1,7 @@
+---
+- name: "Install HA on Raspi" 
+
+  hosts: home_assistant
+  roles:
+    - docker
+  become: yes

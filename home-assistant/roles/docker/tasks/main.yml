@@ -1,0 +1,51 @@
+---
+- name: Install required packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - apt-transport-https 
+      - ca-certificates 
+      - curl 
+      - gnupg2 
+      - software-properties-common
+      - cgroupfs-mount
+
+- name: lsb_release
+  shell: lsb_release -cs
+  register: lsb_release
+
+- name: os_release
+  shell: . /etc/os-release; echo "$ID"
+  register: os_release
+
+- name: Add an Apt signing key
+  apt_key:
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    url: "https://download.docker.com/linux/{{ os_release.stdout }}/gpg"
+    state: present
+
+- name: Add apt repository
+  copy:
+    dest: /etc/apt/sources.list.d/docker.list
+    content: |
+      deb [arch=armhf] https://download.docker.com/linux/{{ os_release.stdout }} {{ lsb_release.stdout }} stable
+
+- name: Install Docker CE
+  apt:
+    update_cache: yes
+    install_recommends: no
+    name: docker-ce
+
+- name: Make sure a service is running
+  systemd:
+    state: started
+    enabled: yes
+    name: docker
+
+- name: Add users to docker
+  user:
+    name: "{{ item }}"
+    groups: docker
+  loop: "{{ users }}"
+
