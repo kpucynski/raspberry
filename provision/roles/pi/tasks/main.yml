@@ -8,6 +8,22 @@
   apt:
     upgrade: dist
 
+- name: Install useful packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - mc
+      - vim
+
+- name: Remove not used stuff
+  apt:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+      - nano
+
 - name: Create users
   user:
     name: "{{ item.name }}"
