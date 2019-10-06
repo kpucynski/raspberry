@@ -1,0 +1,10 @@
+---
+- name: Install docker-compose
+  apt:
+    update_cache: yes
+    name: docker-compose
+
+- name: Install systemd service
+  copy:
+    src: docker-compose.service
+    dest: /etc/systemd/system/docker-compose@.service

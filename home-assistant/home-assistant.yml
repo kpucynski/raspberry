@@ -4,4 +4,5 @@
   hosts: home_assistant
   roles:
     - docker
+    - docker-compose
   become: yes
