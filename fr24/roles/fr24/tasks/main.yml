@@ -1,0 +1,47 @@
+---
+- name: Install required packages
+  apt:
+    update_cache: yes
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - dirmngr
+      - dump1090-mutability
+
+- name: Add an Apt signing key
+  apt_key:
+    id: 40C430F5
+    keyserver: keyserver.ubuntu.com
+    state: present
+
+- name: Add apt repository
+  copy:
+    dest: /etc/apt/sources.list.d/fr24.list
+    content: |
+      deb http://repo.feed.flightradar24.com flightradar24 raspberrypi-stable
+
+- name: Upload config
+  template:
+    src: fr24feed.ini.j2
+    dest: /etc/fr24feed.ini
+    mode: 0644
+
+- name: Install FR24
+  apt:
+    update_cache: yes
+    install_recommends: no
+    name: fr24feed
+
+- name: Make sure a service is running
+  systemd:
+    state: started
+    enabled: yes
+    name: fr24feed
+
+- name: Wait for FR24 feeder
+  wait_for:
+    port: 8754
+    state: started
+    delay: 15
+  become: false
+
