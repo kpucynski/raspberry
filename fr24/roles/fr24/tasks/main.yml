@@ -8,6 +8,12 @@
       - dirmngr
       - dump1090-mutability
 
+- name: Make sure a dump1090-mutability is running
+  systemd:
+    state: started
+    enabled: yes
+    name: dump1090-mutability
+
 - name: Add an Apt signing key
   apt_key:
     id: 40C430F5
