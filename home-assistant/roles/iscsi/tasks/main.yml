@@ -1,0 +1,72 @@
+---
+- name: Install required packages
+  apt:
+    update_cache: yes
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - open-iscsi
+
+- name: Make sure a service is running
+  systemd:
+    state: started
+    enabled: yes
+    name: open-iscsi
+
+# We have to logout from target if it already exists,
+# because ansible changes target auth to None in 2+ pass.
+# Idempotency at its finest. Weird.
+- name: Logout from target if exist
+  open_iscsi:
+    login: no
+    portal: "{{ iscsi_target_address }}"
+  ignore_errors: yes
+
+- name: Discover tagret
+  open_iscsi:
+    show_nodes: yes
+    discover: yes
+    login: yes
+    node_auth: CHAP
+    node_user: "{{ iscsi_target_user }}"
+    node_pass: "{{ iscsi_target_password }}"
+    portal: "{{ iscsi_target_address }}"
+
+- name: Connect to the named target, after updating the local persistent database (cache)
+  open_iscsi:
+    login: yes
+    auto_node_startup: yes
+    node_auth: CHAP
+    node_user: "{{ iscsi_target_user }}"
+    node_pass: "{{ iscsi_target_password }}"
+    portal: "{{ iscsi_target_address }}"
+    target: "{{ iscsi_target_name }}"
+  register: iscsi_info
+
+- name: Create a new primary partition
+  parted:
+    device: "{{ iscsi_info.devicenodes[0] }}"
+    number: 1
+    state: present
+  register: sda_info
+  when: iscsi_create_fs|bool
+
+- name: Create FS
+  filesystem:
+    fstype: ext4
+    dev: "{{ iscsi_info.devicenodes[0] }}1" 
+  when: iscsi_create_fs|bool
+
+- name: "Get UUID for partition"
+  command: blkid -s UUID -o value "{{ iscsi_info.devicenodes[0] }}1"
+  register: sda_blkid
+
+- name: Mount FS
+  mount:
+    fstype: ext4
+    src: UUID={{ sda_blkid.stdout }}
+    path: "{{ iscsi_mount_point }}"
+    opts: _netdev,noatime
+    state: mounted
+
+ 

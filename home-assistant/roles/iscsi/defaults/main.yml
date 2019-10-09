@@ -1,0 +1,9 @@
+---
+# open_iscsi have problems with DNS here
+iscsi_target_address: 127.0.0.1
+iscsi_target_name: iqn.2018-12.com.example:servers
+iscsi_target_user: raspberry
+iscsi_target_password: pi
+
+iscsi_create_fs: false
+iscsi_mount_point: /mnt/iscsi

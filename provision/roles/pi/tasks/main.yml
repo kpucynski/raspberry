@@ -1,4 +1,12 @@
 ---
+- name: Remove not used stuff
+  apt:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+      - nano
+
 - name: Upgrade all packages to the latest version
   apt:
     update_cache: yes
@@ -16,14 +24,8 @@
     packages:
       - mc
       - vim
-
-- name: Remove not used stuff
-  apt:
-    name: "{{ packages }}"
-    state: absent
-  vars:
-    packages:
-      - nano
+      - lsof
+      - htop
 
 - name: Create users
   user:
