@@ -13,7 +13,6 @@
     path: /etc/default/dump1090-mutability
     line: START_DUMP1090="yes"
 
-
 - name: Make sure a dump1090-mutability is running
   systemd:
     state: started
