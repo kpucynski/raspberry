@@ -25,11 +25,8 @@
     keyserver: keyserver.ubuntu.com
     state: present
 
-- name: Add apt repository
-  copy:
-    dest: /etc/apt/sources.list.d/fr24.list
-    content: |
-      deb http://repo.feed.flightradar24.com flightradar24 raspberrypi-stable
+- name: Add FR24 repository
+  apt_repository: repo='deb http://repo.feed.flightradar24.com flightradar24 raspberrypi-stable' state=present
 
 - name: Upload config
   template:

@@ -26,11 +26,8 @@
     url: "https://download.docker.com/linux/{{ os_release.stdout }}/gpg"
     state: present
 
-- name: Add apt repository
-  copy:
-    dest: /etc/apt/sources.list.d/docker.list
-    content: |
-      deb [arch=armhf] https://download.docker.com/linux/{{ os_release.stdout }} {{ lsb_release.stdout }} stable
+- name: Add Docker CE repository
+  apt_repository: repo='deb [arch=armhf] https://download.docker.com/linux/{{ os_release.stdout }} {{ lsb_release.stdout }} stable' state=present
 
 - name: Install Docker CE
   apt:
