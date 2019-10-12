@@ -1,4 +1,9 @@
 ---
+- name: Install lighttpd
+  apt:
+    update_cache: yes
+    name: lighttpd
+
 - name: Create docker directory
   file:
     path: "{{ ha_docker_dir }}"
@@ -16,24 +21,24 @@
     path: "{{ ha_docker_dir }}/mariadb/data"
     state: directory
     mode: '0755'
-    owner: 911
-    group: 911
+    owner: '911'
+    group: '911'
 
 - name: Create mariadb run directory
   file:
     path: "{{ ha_docker_dir }}/mariadb/run"
     state: directory
     mode: '0755'
-    owner: 911
-    group: 911
+    owner: '911'
+    group: '911'
 
 - name: Create grafana directory
   file:
     path: "{{ ha_docker_dir }}/grafana/data"
     state: directory
     mode: '0755'
-    owner: 472
-    group: 472
+    owner: '472'
+    group: '472'
 
 - name: Create HA directory
   file:
@@ -84,3 +89,23 @@
     enabled: true
     name: docker-compose@homeassistant.service
     daemon_reload: yes
+ 
+- name: Upload lighttpd config
+  template:
+    src: lighttpd.conf.j2
+    dest: /etc/lighttpd/conf-available/80-ha.conf
+    mode: '0644'
+
+- name: Create lightppd symlink
+  file:
+    path: /etc/lighttpd/conf-enabled/80-ha.conf
+    src: /etc/lighttpd/conf-available/80-ha.conf
+    state: link
+
+- name: Restart lighttd service
+  systemd:
+    state: restarted
+    enabled: true
+    name: lighttpd
+ 
+  
