@@ -80,7 +80,7 @@
 
 - name: Register and start HA service
   systemd:
-    state: started
+    state: restarted
     enabled: true
     name: docker-compose@homeassistant.service
     daemon_reload: yes

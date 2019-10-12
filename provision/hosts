@@ -1,4 +1,2 @@
-raspberrypi ansible_user=pi ansible_password=raspberry
-
 [pi]
-raspberrypi
+home

@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.6'
 services:
   mariadb:
     # official mariadb does not support arm7
@@ -51,6 +51,8 @@ services:
     container_name: home-assistant
     image: homeassistant/home-assistant:latest
     restart: always
+    devices:
+      - /dev/i2c-1
     ports:
       - "8123:8123"
     depends_on:
