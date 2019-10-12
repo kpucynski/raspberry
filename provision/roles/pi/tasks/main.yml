@@ -28,6 +28,7 @@
       - htop
       - tcpdump
       - mariadb-client
+      - i2c-tools
 
 - name: Create users
   user:
@@ -66,13 +67,19 @@
     path: /etc/hosts
     line: "127.0.1.1	{{ target_hostname }}"
 
+- name: Enable I2C
+  shell: "raspi-config nonint do_i2c 0"
+  when: enable_i2c
+      
 - name: Reboot
   shell: sync && sync && sleep 2 && reboot
   async: 1
   poll: 0
   ignore_errors: true
+  when: reboot_after
 
 - name: Wait for Raspberry PI to come back
   local_action: wait_for host="{{ target_hostname }}" port=22 state=started delay=15
   become: false
+  when: reboot_after
 
