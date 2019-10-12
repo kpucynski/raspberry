@@ -26,6 +26,8 @@
       - vim
       - lsof
       - htop
+      - tcpdump
+      - mariadb-client
 
 - name: Create users
   user:
