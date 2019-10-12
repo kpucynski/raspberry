@@ -3,8 +3,8 @@
 
   hosts: home_assistant
   roles:
-#    - iscsi
-#    - docker
-#    - docker-compose
+    - iscsi
+    - docker
+    - docker-compose
     - home-assistant
   become: yes

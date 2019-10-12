@@ -1,7 +1,7 @@
 ---
 - name: "Install FR24 on Raspi" 
 
-  hosts: home_assistant
+  hosts: fr24
   roles:
     - fr24
   become: yes

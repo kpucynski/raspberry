@@ -1,0 +1,67 @@
+version: '3.4'
+services:
+  mariadb:
+    # official mariadb does not support arm7
+    image: linuxserver/mariadb:latest
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'homeassistant'
+      MYSQL_USER: '{{ mysql_user }}'
+      MYSQL_PASSWORD: '{{ mysql_pass }}'
+      MYSQL_ROOT_PASSWORD: '{{ mysql_root_pass }}'
+      TZ: Europe/Warsaw
+    ports:
+      - '3306:3306'
+#    expose:
+#      - '3306'
+    volumes:
+#      - {{ ha_docker_dir }}/mariadb/data:/var/lib/mysql
+      - {{ ha_docker_dir }}/mariadb/data:/config
+      - {{ ha_docker_dir }}/mariadb/run:/var/run/mysqld/
+
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: always
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+      - "8090:8090"
+    environment:
+      INFLUXDB_DATA_ENGINE: 'tsm1'
+      INFLUXDB_REPORTING_DISABLED: 'false'
+    volumes:
+      - {{ ha_docker_dir }}/influxdb/data:/var/lib/influxdb
+  
+#  grafana:
+#    image: grafana/grafana:latest
+#    container_name: grafana
+#    restart: always
+#    ports:
+#      - "3000:3000"
+##    environment:
+##      GF_INSTALL_PLUGINS: grafana-clock-panel,briangann-gauge-panel,natel-plotly-panel,grafana-simple-json-datasource
+#    links:
+#      - influxdb
+#    volumes:
+#      - {{ ha_docker_dir }}/grafana/data:/var/lib/grafana
+
+  homeassistant:
+    container_name: home-assistant
+    image: homeassistant/home-assistant:latest
+    restart: always
+    ports:
+      - "8123:8123"
+    depends_on:
+      - mariadb
+      - influxdb
+    volumes:
+      - {{ ha_docker_dir }}/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - {{ ha_docker_dir }}/mariadb/run:/run/mysqld/
+#      - {{ ha_docker_dir }}/mariadb/:/var/run/mysqld/mysqld.pid
+#      - /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock
+    restart: always
+    network_mode: host
+

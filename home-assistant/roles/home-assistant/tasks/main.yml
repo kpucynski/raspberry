@@ -1,0 +1,86 @@
+---
+- name: Create docker directory
+  file:
+    path: "{{ ha_docker_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Create influxdb directory
+  file:
+    path: "{{ ha_docker_dir }}/influxdb/data"
+    state: directory
+    mode: '0755'
+
+- name: Create mariadb data directory
+  file:
+    path: "{{ ha_docker_dir }}/mariadb/data"
+    state: directory
+    mode: '0755'
+    owner: 911
+    group: 911
+
+- name: Create mariadb run directory
+  file:
+    path: "{{ ha_docker_dir }}/mariadb/run"
+    state: directory
+    mode: '0755'
+    owner: 911
+    group: 911
+
+- name: Create grafana directory
+  file:
+    path: "{{ ha_docker_dir }}/grafana/data"
+    state: directory
+    mode: '0755'
+    owner: 472
+    group: 472
+
+- name: Create HA directory
+  file:
+    path: "{{ ha_docker_dir }}/homeassistant"
+    state: directory
+    mode: '0755'
+
+- name: Create docker-compose directory
+  file:
+    path: "/etc/docker/compose/homeassistant/"
+    state: directory
+    mode: '0755'
+
+- name: Upload docker-compose config
+  template:
+    src: docker-compose.yaml.j2
+    dest: /etc/docker/compose/homeassistant/docker-compose.yaml
+    mode: '0644'
+
+- name: Create .ssh directory
+  file:
+    path: "/root/.ssh"
+    state: directory
+    mode: '0700'
+
+- name: Upload deployment key
+  copy:
+    dest: /root/.ssh/ha_deploy_key
+    mode: '0600'
+    content: "{{ ssh_deployment_key }}"
+
+- name: Clone config from git
+  git:
+    repo: "{{ ha_git_repo }}"
+    dest: /mnt/iscsi/docker/homeassistant/config
+    accept_hostkey: yes
+    key_file: /root/.ssh/ha_deploy_key
+
+- name: Upload HA config
+  template:
+    src: secrets.yaml.j2
+    dest: /mnt/iscsi/docker/homeassistant/config/secrets.yaml
+    mode: '0644'
+
+- name: Register and start HA service
+  systemd:
+    state: started
+    enabled: true
+    name: docker-compose@homeassistant.service
+    daemon_reload: yes
