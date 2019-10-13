@@ -1,0 +1,8 @@
+language: python
+install:
+  - pip install ansible-lint
+  - ansible-lint --version
+script:
+  - ansible-lint fr24/fr24.yml
+  - ansible-lint provision/provision.yml
+  - ansible-lint home-assistant/home-assistant.yml

@@ -1,5 +1,5 @@
 ---
-- name: "Install FR24 on Raspi" 
+- name: "Install FR24 on Raspi"
 
   hosts: fr24
   roles:
