@@ -44,7 +44,7 @@
     dest: "/etc/sudoers.d/010_kpucynski-nopasswd"
     content: |
       kpucynski ALL=(ALL) NOPASSWD: ALL
-      
+
 - name: Set authorized keys from github
   authorized_key:
     user: "{{ item.name }}"
@@ -66,12 +66,12 @@
 - name: Update hosts
   lineinfile:
     path: /etc/hosts
-    line: "127.0.1.1	{{ target_hostname }}"
+    line: "127.0.1.1 {{ target_hostname }}"
 
 - name: Enable I2C
   shell: "raspi-config nonint do_i2c 0"
   when: enable_i2c
-      
+
 - name: Reboot
   shell: sync && sync && sleep 2 && reboot
   async: 1
@@ -80,7 +80,12 @@
   when: reboot_after
 
 - name: Wait for Raspberry PI to come back
-  local_action: wait_for host="{{ target_hostname }}" port=22 state=started delay=15
+  wait_for:
+    host: "{{ target_hostname }}"
+    port: 22
+    state: started
+    delay: 15
+  delegate_to: localhost
   become: false
   when: reboot_after
 
