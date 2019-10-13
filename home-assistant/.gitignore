@@ -1,2 +1,3 @@
 ansible.log
 .vault_pass
+host_vars/home/secrets.yml
