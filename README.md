@@ -1,6 +1,8 @@
 Raspberry PI tools
 ==================
 
+[![Build Status](https://travis-ci.org/kpucynski/raspberry.svg?branch=master)](https://travis-ci.org/kpucynski/raspberry)
+
 Tools for provisioning Raspberry Pi and additional software.
 
 It may (and probably is) overengineered. You have been warned.

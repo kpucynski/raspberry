@@ -54,7 +54,7 @@
 - name: Create FS
   filesystem:
     fstype: ext4
-    dev: "{{ iscsi_info.devicenodes[0] }}1" 
+    dev: "{{ iscsi_info.devicenodes[0] }}1"
   when: iscsi_create_fs|bool
 
 - name: "Get UUID for partition"
@@ -69,4 +69,4 @@
     opts: _netdev,noatime
     state: mounted
 
- 
+

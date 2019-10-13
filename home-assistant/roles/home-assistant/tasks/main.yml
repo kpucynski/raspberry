@@ -73,6 +73,7 @@
 - name: Clone config from git
   git:
     repo: "{{ ha_git_repo }}"
+    version: master
     dest: /mnt/iscsi/docker/homeassistant/config
     accept_hostkey: yes
     key_file: /root/.ssh/ha_deploy_key
@@ -89,7 +90,7 @@
     enabled: true
     name: docker-compose@homeassistant.service
     daemon_reload: yes
- 
+
 - name: Upload lighttpd config
   template:
     src: lighttpd.conf.j2
@@ -107,5 +108,5 @@
     state: restarted
     enabled: true
     name: lighttpd
- 
-  
+
+

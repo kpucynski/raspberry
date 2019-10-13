@@ -5,10 +5,10 @@
     name: "{{ packages }}"
   vars:
     packages:
-      - apt-transport-https 
-      - ca-certificates 
-      - curl 
-      - gnupg2 
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
       - software-properties-common
       - cgroupfs-mount
 
