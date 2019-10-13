@@ -25,6 +25,7 @@
       - mc
       - vim
       - lsof
+      - iotop
       - htop
       - tcpdump
       - mariadb-client

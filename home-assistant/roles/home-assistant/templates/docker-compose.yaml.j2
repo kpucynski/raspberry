@@ -72,3 +72,23 @@ services:
     restart: always
     network_mode: host
 
+  rtl433-mqtt-gateway:
+    container_name: rtl433-mqtt-gateway
+    image: rtl433-mqtt-gateway:latest
+    restart: always
+    depends_on:
+      - homeassistant
+    environment:
+      MQTT_USER: "homeassistant"
+      MQTT_PASS: "{{ http_password }}"
+      MQTT_HOST: "localhost"
+      MQTT_PORT: 1883
+      MQTT_TOPIC: "sensors/rtl_433"
+      MQTT_QOS: 0
+      RTL_OPTS: "-d 1 -f 868200000"
+      DEBUG: "False"
+    devices:
+      - /dev/bus/usb
+    privileged: true
+    network_mode: host
+

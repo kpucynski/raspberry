@@ -13,9 +13,14 @@
     path: /etc/default/dump1090-mutability
     line: START_DUMP1090="yes"
 
+- name: Update dump1090 config
+  lineinfile:
+    path: /etc/default/dump1090-mutability
+    line: DEVICE="0"
+
 - name: Make sure a dump1090-mutability is running
   systemd:
-    state: started
+    state: restarted
     enabled: yes
     name: dump1090-mutability
 
@@ -42,7 +47,7 @@
 
 - name: Make sure a service is running
   systemd:
-    state: started
+    state: restarted
     enabled: yes
     name: fr24feed
 
