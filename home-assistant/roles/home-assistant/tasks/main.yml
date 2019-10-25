@@ -77,12 +77,14 @@
     dest: /mnt/iscsi/docker/homeassistant/config
     accept_hostkey: yes
     key_file: /root/.ssh/ha_deploy_key
+  tags: config
 
 - name: Upload HA config
   template:
     src: secrets.yaml.j2
     dest: /mnt/iscsi/docker/homeassistant/config/secrets.yaml
     mode: '0644'
+  tags: config
 
 - name: Register and start HA service
   systemd:
@@ -90,6 +92,7 @@
     enabled: true
     name: docker-compose@homeassistant.service
     daemon_reload: yes
+  tags: config
 
 - name: Upload lighttpd config
   template:
