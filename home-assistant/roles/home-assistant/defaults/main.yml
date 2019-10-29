@@ -4,3 +4,5 @@ ha_docker_dir: "{{ ha_docker_dir_prefix }}/docker"
 
 mysql_db: homeassistant
 influx_db: home_assistant
+
+wait_for_ha: true

@@ -112,4 +112,14 @@
     enabled: true
     name: lighttpd
 
+- name: Wait for HA to come back
+  wait_for:
+    host: "{{ ansible_hostname }}"
+    port: 8123 
+    state: started
+    delay: 15
+  delegate_to: localhost
+  become: false
+  tags: config
+  when: wait_for_ha
 
