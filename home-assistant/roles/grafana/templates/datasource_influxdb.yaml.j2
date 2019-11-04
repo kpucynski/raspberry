@@ -1,0 +1,11 @@
+datasources:
+  - name: InfluxDB
+    type: influxdb
+    orgId: 1
+    url: http://localhost:8086
+    access: proxy
+    password: '{{ influx_password }}'
+    user: home-assistant
+    database: '{{ influx_db }}'
+    editable: true
+    isDefault: true

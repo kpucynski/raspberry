@@ -30,6 +30,7 @@
       - tcpdump
       - mariadb-client
       - i2c-tools
+      - sqlite3
 
 - name: Create users
   user:

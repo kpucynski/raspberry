@@ -1,0 +1,67 @@
+---
+- name: Create docker directory
+  file:
+    path: "{{ docker_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Create grafana directories
+  file:
+    path: "{{ docker_dir }}/grafana/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: '472'
+    group: '472'
+  with_items:
+    - "data/dashboards"
+    - "provisioning/datasources"
+    - "provisioning/dashboards"
+
+- name: Create docker-compose directory
+  file:
+    path: "/etc/docker/compose/grafana/"
+    state: directory
+    mode: '0755'
+
+- name: Upload docker-compose config
+  template:
+    src: docker-compose.yaml.j2
+    dest: /etc/docker/compose/grafana/docker-compose.yaml
+    mode: '0644'
+
+- name: Upload provision config
+  template:
+    src: datasource_influxdb.yaml.j2
+    dest: "{{ docker_dir }}/grafana/provisioning/datasources/influxdb.yaml"
+    mode: '0644'
+
+- name: Upload provision config
+  template:
+    src: dashboards_all.yaml.j2
+    dest: "{{ docker_dir }}/grafana/provisioning/dashboards/all.yaml"
+    mode: '0644'
+
+- name: Upload provision config
+  copy:
+    src: dashboard_ha.json
+    dest: "{{ docker_dir }}/grafana/data/dashboards/ha.json"
+
+- name: Register and start grafana service
+  systemd:
+    state: restarted
+    enabled: true
+    name: docker-compose@grafana.service
+    daemon_reload: yes
+  tags: config
+
+- name: Wait for grafana to come back
+  wait_for:
+    host: "{{ ansible_hostname }}"
+    port: 3000 
+    state: started
+    delay: 15
+  delegate_to: localhost
+  become: false
+  tags: config
+  when: wait_for_grafana
+

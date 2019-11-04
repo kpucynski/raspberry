@@ -1,0 +1,16 @@
+version: '3.6'
+services:
+  grafana:
+    image: grafana/grafana:master
+    container_name: grafana
+    restart: always
+    network_mode: "host"
+    ports:
+      - "3000:3000"
+    environment:
+      GF_INSTALL_PLUGINS: grafana-clock-panel,briangann-gauge-panel,natel-plotly-panel,grafana-simple-json-datasource
+      GF_SECURITY_ADMIN_PASSWORD: {{ grafana_admin_pass }}
+    volumes:
+      - {{ docker_dir }}/grafana/data:/var/lib/grafana
+      - {{ docker_dir }}/grafana/provisioning:/etc/grafana/provisioning
+

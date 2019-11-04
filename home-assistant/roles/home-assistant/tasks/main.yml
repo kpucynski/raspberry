@@ -32,14 +32,6 @@
     owner: '911'
     group: '911'
 
-- name: Create grafana directory
-  file:
-    path: "{{ ha_docker_dir }}/grafana/data"
-    state: directory
-    mode: '0755'
-    owner: '472'
-    group: '472'
-
 - name: Create HA directory
   file:
     path: "{{ ha_docker_dir }}/homeassistant"

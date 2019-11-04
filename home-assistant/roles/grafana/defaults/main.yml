@@ -1,0 +1,9 @@
+---
+docker_dir_prefix: /mnt/iscsi
+docker_dir: "{{ docker_dir_prefix }}/docker"
+
+influx_db: home_assistant
+
+grafana_admin_pass: password
+
+wait_for_grafana: true
