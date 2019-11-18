@@ -57,7 +57,7 @@
 - name: Wait for grafana to come back
   wait_for:
     host: "{{ ansible_hostname }}"
-    port: 3000 
+    port: 3000
     state: started
     delay: 15
   delegate_to: localhost
