@@ -45,5 +45,6 @@
   user:
     name: "{{ item }}"
     groups: docker
-  loop: "{{ users }}"
+  with_items:
+    - "{{ users }}"
 
