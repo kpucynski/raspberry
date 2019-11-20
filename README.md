@@ -2,7 +2,7 @@ Raspberry PI tools
 ==================
 
 [![Build Status](https://travis-ci.org/kpucynski/raspberry.svg?branch=master)](https://travis-ci.org/kpucynski/raspberry)
-[![Lint Status](https://github.com/kpucynski/raspberry/workflows/Ansible%20Lint/badge.svg)]
+![Lint Status](https://github.com/kpucynski/raspberry/workflows/Ansible%20Lint/badge.svg)
 
 Tools for provisioning Raspberry Pi and additional software.
 
