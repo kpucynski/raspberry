@@ -52,6 +52,23 @@ services:
 #    volumes:
 #      - {{ ha_docker_dir }}/grafana/data:/var/lib/grafana
 
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    expose:
+      - "1883"
+      - "9001"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - {{ ha_docker_dir }}/mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - {{ ha_docker_dir }}/mosquitto/data:/mosquitto/data
+      - {{ ha_docker_dir }}/mosquitto/log:/mosquitto/log
+#    networks:
+#      - default
+
   homeassistant:
     container_name: home-assistant
     image: homeassistant/home-assistant:latest
@@ -63,6 +80,7 @@ services:
     depends_on:
       - mariadb
       - influxdb
+      - mosquitto
     volumes:
       - {{ ha_docker_dir }}/homeassistant/config:/config
       - /etc/localtime:/etc/localtime:ro
