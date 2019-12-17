@@ -8,7 +8,7 @@
     - role: docker
       tags: docker
     - role: docker-compose
-      tags: docker
+      tags: docker-compose
     - role: home-assistant
       tags: ha
     - role: grafana
