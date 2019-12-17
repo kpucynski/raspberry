@@ -58,15 +58,15 @@
 - name: Set limits
   pam_limits:
     domain: '*'
-    limit_type: "{{item.limit_type}}"
-    limit_item: "{{item.limit_item}}"
-    value: "{{item.value}}"
+    limit_type: "{{ item.limit_type }}"
+    limit_item: "{{ item.limit_item }}"
+    value: "{{ item.value }}"
   with_items:
     - { limit_type: 'soft', limit_item: 'core', value: 0 }
     - { limit_type: 'hard', limit_item: 'core', value: 0 }
 
 - name: Reload sysctl
-  shell: sysctl --system      
+  shell: sysctl --system
 
 - name: "Remove password from pi account"
   user:
