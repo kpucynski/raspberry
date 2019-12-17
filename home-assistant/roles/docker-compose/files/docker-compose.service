@@ -5,6 +5,7 @@ After=docker.service
 
 [Service]
 Restart=always
+TimeoutSec=300
 
 WorkingDirectory=/etc/docker/compose/%i
 
@@ -14,6 +15,7 @@ ExecStartPre=/usr/bin/docker-compose rm -fv
 ExecStartPre=-/bin/bash -c 'docker volume ls -qf "name=%i_" | xargs docker volume rm'
 ExecStartPre=-/bin/bash -c 'docker network ls -qf "name=%i_" | xargs docker network rm'
 ExecStartPre=-/bin/bash -c 'docker ps -aqf "name=%i_*" | xargs docker rm'
+ExecStartPre=/usr/bin/docker-compose pull
 
 # Compose up
 ExecStart=/usr/bin/docker-compose up
