@@ -87,7 +87,6 @@ services:
       - {{ ha_docker_dir }}/mariadb/run:/run/mysqld/
 #      - {{ ha_docker_dir }}/mariadb/:/var/run/mysqld/mysqld.pid
 #      - /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock
-    restart: always
     network_mode: host
 
   rtl433-mqtt-gateway:
