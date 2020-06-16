@@ -52,7 +52,7 @@
     enabled: true
     name: docker-compose@grafana.service
     daemon_reload: yes
-  tags: config
+  tags: grafana_config
 
 - name: Wait for grafana to come back
   wait_for:
@@ -62,6 +62,6 @@
     delay: 15
   delegate_to: localhost
   become: false
-  tags: config
+  tags: grafana_config
   when: wait_for_grafana
 
