@@ -3,7 +3,7 @@ Home-Assistant on RPI
 
 Tools for provisioning home-assistant on RPI
 
-```
+```bash
 ansible-playbook -v -i hosts --vault-password-file .vault_pass some-assistant.yml --extra-vars iscsi_create_fs=false
 ansible-playbook -v -i hosts --vault-password-file .vault_pass home-assistant.yml --tags ha
 ansible-playbook -v -i hosts --vault-password-file .vault_pass home-assistant.yml --tags config
