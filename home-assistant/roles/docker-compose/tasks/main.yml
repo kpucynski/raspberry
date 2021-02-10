@@ -8,3 +8,4 @@
   copy:
     src: docker-compose.service
     dest: /etc/systemd/system/docker-compose@.service
+    mode: '0644'

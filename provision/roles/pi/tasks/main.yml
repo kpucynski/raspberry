@@ -45,6 +45,7 @@
     dest: "/etc/sudoers.d/010_kpucynski-nopasswd"
     content: |
       kpucynski ALL=(ALL) NOPASSWD: ALL
+    mode: '0644'
 
 - name: Set authorized keys from github
   authorized_key:

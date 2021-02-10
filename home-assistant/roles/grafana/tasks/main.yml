@@ -45,7 +45,7 @@
   copy:
     src: dashboard_ha.json
     dest: "{{ docker_dir }}/grafana/data/dashboards/ha.json"
-
+    mode: '0644'
 - name: Register and start grafana service
   systemd:
     state: restarted
