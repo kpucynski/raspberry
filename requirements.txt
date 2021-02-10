@@ -4,13 +4,25 @@
 #
 #    pip-compile
 #
-ansible==2.9.9            # via -r requirements.in
-cffi==1.14.0              # via cryptography
-cryptography==3.2         # via ansible
-jinja2==2.11.2            # via ansible
-markupsafe==1.1.1         # via jinja2
-pathspec==0.8.0           # via yamllint
-pycparser==2.20           # via cffi
-pyyaml==5.3.1             # via ansible, yamllint
-six==1.15.0               # via cryptography
-yamllint==1.23.0          # via -r requirements.in
+ansible==2.9.9
+    # via -r requirements.in
+cffi==1.14.0
+    # via cryptography
+cryptography==3.3.2
+    # via ansible
+jinja2==2.11.2
+    # via ansible
+markupsafe==1.1.1
+    # via jinja2
+pathspec==0.8.0
+    # via yamllint
+pycparser==2.20
+    # via cffi
+pyyaml==5.3.1
+    # via
+    #   ansible
+    #   yamllint
+six==1.15.0
+    # via cryptography
+yamllint==1.23.0
+    # via -r requirements.in
