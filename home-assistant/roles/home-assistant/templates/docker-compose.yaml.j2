@@ -38,7 +38,7 @@ services:
       INFLUXDB_USER_PASSWORD: '{{ influx_password }}'
     volumes:
       - {{ ha_docker_dir }}/influxdb/data:/var/lib/influxdb
-  
+
 #  grafana:
 #    image: grafana/grafana:latest
 #    container_name: grafana
@@ -108,4 +108,3 @@ services:
       - /dev/bus/usb
     privileged: true
     network_mode: host
-

@@ -134,4 +134,3 @@
   become: false
   tags: config
   when: wait_for_ha
-

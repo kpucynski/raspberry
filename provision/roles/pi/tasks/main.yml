@@ -103,4 +103,3 @@
   delegate_to: localhost
   become: false
   when: reboot_after
-

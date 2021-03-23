@@ -8,5 +8,3 @@ Take Sharing Key from [My data sharing](https://www.flightradar24.com/account/da
 ```bash
 ansible-playbook -v -i hosts fr24.yml --extra-vars fr24_key=FR24_SHARING_KEY
 ```
-
-

@@ -68,5 +68,3 @@
     path: "{{ iscsi_mount_point }}"
     opts: _netdev,noatime
     state: mounted
-
-

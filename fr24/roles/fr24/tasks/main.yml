@@ -57,4 +57,3 @@
     state: started
     delay: 15
   become: false
-

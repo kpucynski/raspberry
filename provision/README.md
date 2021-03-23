@@ -7,5 +7,3 @@ Quickly make new Raspberry Pi with fresh Raspbian usable.
 sudo apt install sshpass
 ansible-playbook -i hosts provision.yml --extra-vars target_hostname=some-name
 ```
-
-

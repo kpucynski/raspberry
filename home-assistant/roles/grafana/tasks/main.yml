@@ -64,4 +64,3 @@
   become: false
   tags: grafana_config
   when: wait_for_grafana
-
