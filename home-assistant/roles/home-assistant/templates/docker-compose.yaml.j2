@@ -21,7 +21,7 @@ services:
       - {{ ha_docker_dir }}/mariadb/run:/var/run/mysqld/
 
   influxdb:
-    image: influxdb:latest
+    image: influxdb:1.8.4
     container_name: influxdb
     restart: always
     ports:

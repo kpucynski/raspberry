@@ -48,3 +48,8 @@
   with_items:
     - "{{ users }}"
 
+- name: Log into DockerHub
+  docker_login:
+    username: "{{ docker_user }}"
+    password: "{{ docker_pass }}"
+  tags: config
