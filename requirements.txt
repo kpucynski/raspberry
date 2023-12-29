@@ -4,9 +4,9 @@
 #
 #    pip-compile
 #
-ansible==7.0.0
+ansible==8.5.0
     # via -r requirements.in
-ansible-core==2.14.1
+ansible-core==2.15.8
     # via ansible
 certifi==2022.12.7
     # via requests
